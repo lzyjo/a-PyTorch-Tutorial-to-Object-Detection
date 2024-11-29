@@ -167,9 +167,9 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
         true_images.extend([i] * true_labels[i].size(0))
     true_images = torch.LongTensor(true_images).to(
         device)  # (n_objects), n_objects is the total no. of objects across all images
-    true_boxes = torch.cat(true_boxes, dim=0)  # (n_objects, 4)
-    true_labels = torch.cat(true_labels, dim=0)  # (n_objects)
-    true_difficulties = torch.cat(true_difficulties, dim=0)  # (n_objects)
+    true_boxes = torch.cat(true_boxes, dim=0).to(device) #CHANGEDHERE  # (n_objects, 4)
+    true_labels = torch.cat(true_labels, dim=0).to(device) #CHANGEDHERE  # (n_objects)
+    true_difficulties = torch.cat(true_difficulties, dim=0).to(device) #CHANGEDHERE  # (n_objects)
 
     assert true_images.size(0) == true_boxes.size(0) == true_labels.size(0)
 
@@ -178,9 +178,9 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
     for i in range(len(det_labels)):
         det_images.extend([i] * det_labels[i].size(0))
     det_images = torch.LongTensor(det_images).to(device)  # (n_detections)
-    det_boxes = torch.cat(det_boxes, dim=0)  # (n_detections, 4)
-    det_labels = torch.cat(det_labels, dim=0)  # (n_detections)
-    det_scores = torch.cat(det_scores, dim=0)  # (n_detections)
+    det_boxes = torch.cat(det_boxes, dim=0).to(device) #CHANGEDHERE  # (n_detections, 4)
+    det_labels = torch.cat(det_labels, dim=0).to(device) #CHANGEDHERE  # (n_detections)
+    det_scores = torch.cat(det_scores, dim=0).to(device) #CHANGEDHERE  # (n_detections)
 
     assert det_images.size(0) == det_boxes.size(0) == det_labels.size(0) == det_scores.size(0)
 
@@ -234,7 +234,7 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
             # In the original class-level tensors 'true_class_boxes', etc., 'ind' corresponds to object with index...
             original_ind = torch.LongTensor(range(true_class_boxes.size(0))).to(device)[true_class_images == this_image][ind]
             # We need 'original_ind' to update 'true_class_boxes_detected' 
-          """ CHANGED original_ind FROM ORIGINAL CODE, AS SUGGESTED BY CHAT GPT FOR CPU/GPU RUNTIME ERROR
+          """ CHANGEDHERE original_ind FROM ORIGINAL CODE, AS SUGGESTED BY CHAT GPT FOR CPU/GPU RUNTIME ERROR
 
             # If the maximum overlap is greater than the threshold of 0.5, it's a match
             if max_overlap.item() > 0.5:
