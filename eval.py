@@ -18,7 +18,6 @@ checkpoint = '/content/drive/MyDrive/PyTorch Tutorial to Object Detection./check
 checkpoint = torch.load(checkpoint)
 model = checkpoint['model']
 model = model.to(device)
-checkpoint = '/content/drive/MyDrive/PyTorch Tutorial to Object Detection./checkpoint_ssd300.pth.tar'
 
 # Switch to eval mode
 model.eval()
