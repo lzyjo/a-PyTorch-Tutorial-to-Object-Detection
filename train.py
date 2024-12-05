@@ -13,7 +13,7 @@ keep_difficult = True  # use objects considered difficult to detect?
 # Model parameters
 # Not too many here since the SSD300 has a very specific structure
 n_classes = len(label_map)  # number of different types of objects
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda")
 
 # Learning parameters
 checkpoint = None  # path to model checkpoint, None if none
