@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 device = torch.device("cuda")
 
 # Load model checkpoint
-checkpoint = 'checkpoint_ssd300.pth.tar'
+checkpoint = '/content/drive/MyDrive/PyTorch Tutorial to Object Detection./checkpoint_ssd300.pth.tar' #change to relevant file path!!!!!
 checkpoint = torch.load(checkpoint)
 start_epoch = checkpoint['epoch'] + 1
 print('\nLoaded checkpoint from epoch %d.\n' % start_epoch)
