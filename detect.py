@@ -45,8 +45,8 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
     det_boxes, det_labels, det_scores = model.detect_objects(predicted_locs, predicted_scores, min_score=min_score,
                                                              max_overlap=max_overlap, top_k=top_k)
 
-    # Move detections to the CPU
-    det_boxes = det_boxes[0].to('cpu')
+    # Move detections to the device (cuda)
+    det_boxes = det_boxes[0].to(device)
 
     # Transform to original image dimensions
     original_dims = torch.FloatTensor(
@@ -54,7 +54,7 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
     det_boxes = det_boxes * original_dims
 
     # Decode class integer labels
-    det_labels = [rev_label_map[l] for l in det_labels[0].to('cpu').tolist()]
+    det_labels = [rev_label_map[l] for l in det_labels[0].to(device).tolist()]
 
     # If no objects found, the detected labels will be set to ['0.'], i.e. ['background'] in SSD300.detect_objects() in model.py
     if det_labels == ['background']:
