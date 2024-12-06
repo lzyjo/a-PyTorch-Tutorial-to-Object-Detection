@@ -49,7 +49,7 @@ def detect(original_image, min_score, max_overlap, top_k, suppress=None):
     det_boxes = det_boxes[0].to(device)
 
     # Transform to original image dimensions
-    original_dims = torch.FloatTensor(
+    original_dims = torch.cuda.FloatTensor(
         [original_image.width, original_image.height, original_image.width, original_image.height]).unsqueeze(0)
     det_boxes = det_boxes * original_dims
 

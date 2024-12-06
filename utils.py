@@ -165,7 +165,7 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
     true_images = list()
     for i in range(len(true_labels)):
         true_images.extend([i] * true_labels[i].size(0))
-    true_images = torch.LongTensor(true_images).to(
+    true_images = 	torch.cuda.LongTensor(true_images).to(
         device)  # (n_objects), n_objects is the total no. of objects across all images
     true_boxes = torch.cat(true_boxes, dim=0)  # (n_objects, 4)
     true_labels = torch.cat(true_labels, dim=0)  # (n_objects)
@@ -177,7 +177,7 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
     det_images = list()
     for i in range(len(det_labels)):
         det_images.extend([i] * det_labels[i].size(0))
-    det_images = torch.LongTensor(det_images).to(device)  # (n_detections)
+    det_images = torch.cuda.LongTensor(det_images).to(device)  # (n_detections)
     det_boxes = torch.cat(det_boxes, dim=0)  # (n_detections, 4)
     det_labels = torch.cat(det_labels, dim=0)  # (n_detections)
     det_scores = torch.cat(det_scores, dim=0)  # (n_detections)
@@ -232,7 +232,7 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
 
             # 'ind' is the index of the object in these image-level tensors 'object_boxes', 'object_difficulties'
             # In the original class-level tensors 'true_class_boxes', etc., 'ind' corresponds to object with index...
-            original_ind = torch.LongTensor(range(true_class_boxes.size(0)))[true_class_images == this_image][ind]
+            original_ind = torch.arange(true_class_boxes.size(0))[true_class_images == this_image][ind] #original_ind = torch.LongTensor(range(true_class_boxes.size(0)))[true_class_images == this_image][ind]
             # We need 'original_ind' to update 'true_class_boxes_detected'
 
             # If the maximum overlap is greater than the threshold of 0.5, it's a match
@@ -399,7 +399,7 @@ def expand(image, boxes, filler):
     new_w = int(scale * original_w)
 
     # Create such an image with the filler
-    filler = torch.FloatTensor(filler)  # (3)
+    filler = torch.cuda.FloatTensor(filler)  # (3)
     new_image = torch.ones((3, new_h, new_w), dtype=torch.float) * filler.unsqueeze(1).unsqueeze(1)  # (3, new_h, new_w)
     # Note - do not use expand() like new_image = filler.unsqueeze(1).unsqueeze(1).expand(3, new_h, new_w)
     # because all expanded values will share the same memory, so changing one pixel will change all
@@ -412,7 +412,7 @@ def expand(image, boxes, filler):
     new_image[:, top:bottom, left:right] = image
 
     # Adjust bounding boxes' coordinates accordingly
-    new_boxes = boxes + torch.FloatTensor([left, top, left, top]).unsqueeze(
+    new_boxes = boxes + torch.cuda.FloatTensor([left, top, left, top]).unsqueeze(
         0)  # (n_objects, 4), n_objects is the no. of objects in this image
 
     return new_image, new_boxes
@@ -465,7 +465,7 @@ def random_crop(image, boxes, labels, difficulties):
             right = left + new_w
             top = random.randint(0, original_h - new_h)
             bottom = top + new_h
-            crop = torch.FloatTensor([left, top, right, bottom])  # (4)
+            crop = torch.cuda.FloatTensor([left, top, right, bottom])  # (4)
 
             # Calculate Jaccard overlap between the crop and the bounding boxes
             overlap = find_jaccard_overlap(crop.unsqueeze(0),
@@ -539,11 +539,11 @@ def resize(image, boxes, dims=(300, 300), return_percent_coords=True):
     new_image = FT.resize(image, dims)
 
     # Resize bounding boxes
-    old_dims = torch.FloatTensor([image.width, image.height, image.width, image.height]).unsqueeze(0)
+    old_dims = torch.cuda.FloatTensor([image.width, image.height, image.width, image.height]).unsqueeze(0)
     new_boxes = boxes / old_dims  # percent coordinates
 
     if not return_percent_coords:
-        new_dims = torch.FloatTensor([dims[1], dims[0], dims[1], dims[0]]).unsqueeze(0)
+        new_dims = torch.cuda.FloatTensor([dims[1], dims[0], dims[1], dims[0]]).unsqueeze(0)
         new_boxes = new_boxes * new_dims
 
     return new_image, new_boxes
