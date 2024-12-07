@@ -399,7 +399,7 @@ def expand(image, boxes, filler):
     new_w = int(scale * original_w)
 
     # Create such an image with the filler
-    filler = torch.cuda.FloatTensor(filler)  # (3)
+    filler = torch.FloatTensor(filler)  # (3)
     new_image = torch.ones((3, new_h, new_w), dtype=torch.float) * filler.unsqueeze(1).unsqueeze(1)  # (3, new_h, new_w)
     # Note - do not use expand() like new_image = filler.unsqueeze(1).unsqueeze(1).expand(3, new_h, new_w)
     # because all expanded values will share the same memory, so changing one pixel will change all
@@ -412,7 +412,7 @@ def expand(image, boxes, filler):
     new_image[:, top:bottom, left:right] = image
 
     # Adjust bounding boxes' coordinates accordingly
-    new_boxes = boxes + torch.cuda.FloatTensor([left, top, left, top]).unsqueeze(
+    new_boxes = boxes + torch.FloatTensor([left, top, left, top]).unsqueeze(
         0)  # (n_objects, 4), n_objects is the no. of objects in this image
 
     return new_image, new_boxes
@@ -465,7 +465,7 @@ def random_crop(image, boxes, labels, difficulties):
             right = left + new_w
             top = random.randint(0, original_h - new_h)
             bottom = top + new_h
-            crop = torch.cuda.FloatTensor([left, top, right, bottom])  # (4)
+            crop = torch.FloatTensor([left, top, right, bottom])  # (4)
 
             # Calculate Jaccard overlap between the crop and the bounding boxes
             overlap = find_jaccard_overlap(crop.unsqueeze(0),
@@ -539,11 +539,11 @@ def resize(image, boxes, dims=(300, 300), return_percent_coords=True):
     new_image = FT.resize(image, dims)
 
     # Resize bounding boxes
-    old_dims = torch.cuda.FloatTensor([image.width, image.height, image.width, image.height]).unsqueeze(0)
+    old_dims = torch.FloatTensor([image.width, image.height, image.width, image.height]).unsqueeze(0)
     new_boxes = boxes / old_dims  # percent coordinates
 
     if not return_percent_coords:
-        new_dims = torch.cuda.FloatTensor([dims[1], dims[0], dims[1], dims[0]]).unsqueeze(0)
+        new_dims = torch.FloatTensor([dims[1], dims[0], dims[1], dims[0]]).unsqueeze(0)
         new_boxes = new_boxes * new_dims
 
     return new_image, new_boxes
