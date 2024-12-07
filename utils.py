@@ -165,7 +165,7 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
     true_images = list()
     for i in range(len(true_labels)):
         true_images.extend([i] * true_labels[i].size(0))
-    true_images = 	torch.cuda.LongTensor(true_images).to(
+    true_images = 	torch.LongTensor(true_images).to(
         device)  # (n_objects), n_objects is the total no. of objects across all images
     true_boxes = torch.cat(true_boxes, dim=0)  # (n_objects, 4)
     true_labels = torch.cat(true_labels, dim=0)  # (n_objects)
@@ -177,7 +177,7 @@ def calculate_mAP(det_boxes, det_labels, det_scores, true_boxes, true_labels, tr
     det_images = list()
     for i in range(len(det_labels)):
         det_images.extend([i] * det_labels[i].size(0))
-    det_images = torch.cuda.LongTensor(det_images).to(device)  # (n_detections)
+    det_images = torch.LongTensor(det_images).to(device)  # (n_detections)
     det_boxes = torch.cat(det_boxes, dim=0)  # (n_detections, 4)
     det_labels = torch.cat(det_labels, dim=0)  # (n_detections)
     det_scores = torch.cat(det_scores, dim=0)  # (n_detections)
