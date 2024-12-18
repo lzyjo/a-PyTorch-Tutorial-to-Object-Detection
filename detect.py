@@ -6,7 +6,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model checkpoint
 checkpoint = '/content/drive/MyDrive/PyTorch Tutorial to Object Detection./checkpoint_ssd300.pth.tar'
-checkpoint = torch.load(checkpoint) 
+checkpoint = torch.load(checkpoint) #checkpoint = torch.load(checkpoint, map_location=torch.device('cpu')) 
 # RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False" indicates that the model you are trying to load was saved on a machine with a CUDA-enabled GPU, but your current environment does not have a CUDA-enabled GPU.
 # The line checkpoint = torch.load(checkpoint) in eval.py is attempting to load the model checkpoint. Because the checkpoint was likely saved on a GPU, it expects to load onto a GPU. Since you're likely running in an environment without a GPU (like Google Colab without a GPU runtime), this causes the error.
 start_epoch = checkpoint['epoch'] + 1
