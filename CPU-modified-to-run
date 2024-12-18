@@ -7,7 +7,7 @@
         "colab_type": "text"
       },
       "source": [
-        "<a href=\"https://colab.research.google.com/github/lzyjo/a-PyTorch-Tutorial-to-Object-Detection/blob/Original-modified-to-work/Model_Run_Original_code.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+        "<a href=\"https://colab.research.google.com/github/lzyjo/a-PyTorch-Tutorial-to-Object-Detection/blob/CPU-modified-to-run/CPU-modified-to-run\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
       ]
     },
     {
@@ -15,9 +15,14 @@
       "source": [
         "Notes:\n",
         "\n",
+        "# Notes\n",
         "\n",
-        "*   Works running on cpu until detect - can't get pillow to work. Also tried using matlabplot but then the font error still comes up.\n",
-        "*   \n",
+        "**Changes**\n",
+        "*   Changed checkpoint to point to relevant file path in cwd\n",
+        "\n",
+        "\n",
+        "**Progress**\n",
+        "*   Works running on cpu (finished evaluating!) until detect - can't get pillow to work. Also tried using matlabplot but then the font error still comes up.\n",
         "\n"
       ],
       "metadata": {
@@ -35,7 +40,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 1,
+      "execution_count": null,
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
@@ -59,7 +64,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 2,
+      "execution_count": null,
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
@@ -118,7 +123,7 @@
         "id": "CvwfRUhjM-Qm",
         "outputId": "9cba657d-539b-48fa-95fb-6d3251eca90f"
       },
-      "execution_count": 3,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -137,7 +142,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 4,
+      "execution_count": null,
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
@@ -178,7 +183,7 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 5,
+      "execution_count": null,
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
@@ -224,7 +229,7 @@
         },
         "outputId": "67c635b5-7b34-4f00-e436-bfec7bd9a5cc"
       },
-      "execution_count": 6,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -250,7 +255,7 @@
         "id": "4hgUuOIQsv2Q",
         "outputId": "203dcfc8-affb-438e-f5a1-092eebca22ee"
       },
-      "execution_count": 7,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -284,7 +289,7 @@
         "id": "m2VPIwD8jEZ9",
         "outputId": "105490ae-6a90-4fb2-c1b5-23ef590d12db"
       },
-      "execution_count": 8,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -305,7 +310,7 @@
       "metadata": {
         "id": "d11uKg3sBurU"
       },
-      "execution_count": 14,
+      "execution_count": null,
       "outputs": []
     },
     {
@@ -329,7 +334,7 @@
         "id": "CdUkOL8r34lV",
         "outputId": "bf11ba5a-24df-497b-f76b-5f8a6bf52958"
       },
-      "execution_count": 14,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -357,7 +362,7 @@
       "metadata": {
         "id": "ZYn9bVbBDYC7"
       },
-      "execution_count": 15,
+      "execution_count": null,
       "outputs": []
     },
     {
@@ -379,7 +384,7 @@
       "metadata": {
         "id": "sR9RvJWwny95"
       },
-      "execution_count": 27,
+      "execution_count": null,
       "outputs": []
     },
     {
@@ -399,7 +404,7 @@
         },
         "outputId": "63c9aad6-544a-459c-b62b-3718131a4ee9"
       },
-      "execution_count": 28,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "error",
@@ -438,7 +443,7 @@
         "id": "RGwO2rH30gci",
         "outputId": "393aefde-111e-444b-a1e9-71801c318bf6"
       },
-      "execution_count": 21,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -455,7 +460,7 @@
     "colab": {
       "provenance": [],
       "name": "Model-Run_Original-code.ipynb",
-      "authorship_tag": "ABX9TyOeefRn8w8yYLwkmLL0ZGlc",
+      "authorship_tag": "ABX9TyMZCMyYsiURqUjzbBDiGI2k",
       "include_colab_link": true
     },
     "kernelspec": {
