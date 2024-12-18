@@ -336,7 +336,7 @@ class SSD300(nn.Module):
 
         # Since lower level features (conv4_3_feats) have considerably larger scales, we take the L2 norm and rescale
         # Rescale factor is initially set at 20, but is learned for each channel during back-prop
-        self.rescale_factors = nn.Parameter(torch.FloatTensor(1, 512, 1, 1))  # there are 512 channels in conv4_3_feats
+        self.rescale_factors = nn.Parameter(torch.cuda.FloatTensor(1, 512, 1, 1))  # there are 512 channels in conv4_3_feats
         nn.init.constant_(self.rescale_factors, 20)
 
         # Prior boxes
@@ -418,7 +418,7 @@ class SSD300(nn.Module):
                                 additional_scale = 1.
                             prior_boxes.append([cx, cy, additional_scale, additional_scale])
 
-        prior_boxes = torch.FloatTensor(prior_boxes).to(device)  # (8732, 4)
+        prior_boxes = torch.cuda.FloatTensor(prior_boxes).to(device)  # (8732, 4)
         prior_boxes.clamp_(0, 1)  # (8732, 4); this line has no effect; see Remarks section in tutorial
 
         return prior_boxes
@@ -499,14 +499,14 @@ class SSD300(nn.Module):
 
                 # Store only unsuppressed boxes for this class
                 image_boxes.append(class_decoded_locs[1 - suppress])
-                image_labels.append(torch.LongTensor((1 - suppress).sum().item() * [c]).to(device))
+                image_labels.append(torch.cuda.LongTensor((1 - suppress).sum().item() * [c]).to(device))
                 image_scores.append(class_scores[1 - suppress])
 
             # If no object in any class is found, store a placeholder for 'background'
             if len(image_boxes) == 0:
-                image_boxes.append(torch.FloatTensor([[0., 0., 1., 1.]]).to(device))
-                image_labels.append(torch.LongTensor([0]).to(device))
-                image_scores.append(torch.FloatTensor([0.]).to(device))
+                image_boxes.append(torch.cuda.FloatTensor([[0., 0., 1., 1.]]).to(device))
+                image_labels.append(torch.cuda.LongTensor([0]).to(device))
+                image_scores.append(torch.cuda.FloatTensor([0.]).to(device))
 
             # Concatenate into single tensors
             image_boxes = torch.cat(image_boxes, dim=0)  # (n_objects, 4)
@@ -587,7 +587,7 @@ class MultiBoxLoss(nn.Module):
             _, prior_for_each_object = overlap.max(dim=1)  # (N_o)
 
             # Then, assign each object to the corresponding maximum-overlap-prior. (This fixes 1.)
-            object_for_each_prior[prior_for_each_object] = torch.LongTensor(range(n_objects)).to(device)
+            object_for_each_prior[prior_for_each_object] = torch.cuda.LongTensor(range(n_objects)).to(device)
 
             # To ensure these priors qualify, artificially give them an overlap of greater than 0.5. (This fixes 2.)
             overlap_for_each_prior[prior_for_each_object] = 1.
@@ -637,7 +637,7 @@ class MultiBoxLoss(nn.Module):
         conf_loss_neg = conf_loss_all.clone()  # (N, 8732)
         conf_loss_neg[positive_priors] = 0.  # (N, 8732), positive priors are ignored (never in top n_hard_negatives)
         conf_loss_neg, _ = conf_loss_neg.sort(dim=1, descending=True)  # (N, 8732), sorted by decreasing hardness
-        hardness_ranks = torch.LongTensor(range(n_priors)).unsqueeze(0).expand_as(conf_loss_neg).to(device)  # (N, 8732)
+        hardness_ranks = torch.cuda.LongTensor(range(n_priors)).unsqueeze(0).expand_as(conf_loss_neg).to(device)  # (N, 8732)
         hard_negatives = hardness_ranks < n_hard_negatives.unsqueeze(1)  # (N, 8732)
         conf_loss_hard_neg = conf_loss_neg[hard_negatives]  # (sum(n_hard_negatives))
 
