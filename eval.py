@@ -15,7 +15,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 checkpoint = '/content/drive/MyDrive/PyTorch Tutorial to Object Detection./checkpoint_ssd300.pth.tar'
 
 # Load model checkpoint that is to be evaluated
-checkpoint = torch.load(checkpoint)
+checkpoint = torch.load(checkpoint, map_location=torch.device('cpu'))
 model = checkpoint['model']
 model = model.to(device)
 
